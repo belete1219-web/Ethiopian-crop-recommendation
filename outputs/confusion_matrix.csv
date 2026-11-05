@@ -1,0 +1,11 @@
+,barley,chickpea,coffee,enset,haricot_bean,maize,sesame,sorghum,teff,wheat
+barley,6,0,0,0,1,0,0,0,1,1
+chickpea,0,8,0,0,0,0,0,1,0,0
+coffee,0,0,8,1,0,0,0,0,0,0
+enset,0,0,1,8,0,0,0,0,0,0
+haricot_bean,0,0,0,0,6,0,1,1,1,0
+maize,0,0,0,1,0,8,0,0,0,0
+sesame,0,2,0,0,0,0,7,0,0,0
+sorghum,0,0,0,0,0,0,0,9,0,0
+teff,1,0,0,0,0,0,0,0,7,1
+wheat,0,0,0,0,0,1,0,0,0,8

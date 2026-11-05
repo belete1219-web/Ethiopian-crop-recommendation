@@ -1,0 +1,129 @@
+{
+  "project": "Crop Recommendation Based on Soil and Climate Conditions",
+  "dataset_file": "data/Crop_recommendation_Ethio.csv",
+  "dataset_provenance": "Supplied to the group as a 600-row CSV with no documentation of author, collection site, dates, units or labelling protocol. Statistical structure indicates the rows were synthetically generated, with each label being the crop a row was generated for rather than a recorded field outcome; this is an inference, not a documented fact. Not verified Ethiopian field data.",
+  "features": [
+    "N",
+    "P",
+    "K",
+    "temperature",
+    "humidity",
+    "ph",
+    "rainfall"
+  ],
+  "target": "label",
+  "classes": [
+    "barley",
+    "chickpea",
+    "coffee",
+    "enset",
+    "haricot_bean",
+    "maize",
+    "sesame",
+    "sorghum",
+    "teff",
+    "wheat"
+  ],
+  "selected_model": "Random Forest",
+  "random_state": 42,
+  "split": {
+    "train": "70% of rows",
+    "validation": "15% of rows",
+    "test": "15% of rows"
+  },
+  "fitted_on": "train + validation rows (510); test rows (90) held out",
+  "test_metrics": {
+    "selected_model": "Random Forest",
+    "test_rows": 90.0,
+    "accuracy": 0.8333333333333334,
+    "macro_precision": 0.8363023088023087,
+    "macro_recall": 0.8333333333333333,
+    "macro_f1": 0.8305400756793946,
+    "weighted_f1": 0.8305400756793945,
+    "top3_accuracy": 0.9666666666666667
+  },
+  "input_reference": {
+    "fitted_rows": 510,
+    "feature_ranges": {
+      "N": {
+        "min": 17.974643664113504,
+        "max": 96.63188085823508,
+        "p01": 22.194988096452686,
+        "p99": 90.13985549869906
+      },
+      "P": {
+        "min": 11.444716734534332,
+        "max": 60.29596771564202,
+        "p01": 16.28691983322223,
+        "p99": 53.795729668771436
+      },
+      "K": {
+        "min": 9.579880835120536,
+        "max": 63.22538409125287,
+        "p01": 14.998681138710888,
+        "p99": 55.883612603016346
+      },
+      "temperature": {
+        "min": 10.31065899069562,
+        "max": 33.11282536264729,
+        "p01": 12.941847050931283,
+        "p99": 30.40835759561941
+      },
+      "humidity": {
+        "min": 22.461110223496515,
+        "max": 97.17652893175814,
+        "p01": 35.1904904914616,
+        "p99": 89.05529643782286
+      },
+      "ph": {
+        "min": 5.098468570464764,
+        "max": 7.781932578279206,
+        "p01": 5.348171005227078,
+        "p99": 7.347614088664225
+      },
+      "rainfall": {
+        "min": 198.1588791516869,
+        "max": 1742.484500247445,
+        "p01": 247.7947025399501,
+        "p99": 1587.60968195629
+      }
+    },
+    "scaler": {
+      "mean": {
+        "N": 57.84609221074098,
+        "P": 33.43707794379233,
+        "K": 35.74557767014496,
+        "temperature": 21.31801058218767,
+        "humidity": 58.91942710377159,
+        "ph": 6.3863333836275284,
+        "rainfall": 733.4414363703174
+      },
+      "std": {
+        "N": 16.82271548957092,
+        "P": 8.020949636427055,
+        "K": 8.92431538725049,
+        "temperature": 4.092156281871584,
+        "humidity": 12.40600010951218,
+        "ph": 0.4601852248626989,
+        "rainfall": 321.4487349019963
+      }
+    },
+    "novelty_check": {
+      "method": "distance to nearest fitted row in standardised feature space (leave-one-out calibration)",
+      "threshold_p99": 1.8208275046936273,
+      "loo_distance_percentiles": {
+        "50": 1.0144356367915301,
+        "90": 1.400755905196119,
+        "95": 1.5449320097171524,
+        "99": 1.8208275046936273,
+        "100": 2.0924639995643504
+      }
+    }
+  },
+  "software": {
+    "python": "3.14.6",
+    "scikit-learn": "1.9.1",
+    "pandas": "3.0.6",
+    "numpy": "2.5.3"
+  }
+}

@@ -1,0 +1,26 @@
+PACKAGING REVIEW - 2026-11-04
+Environment used for this review: Python 3.12, scikit-learn 1.9.1, pandas 3.0.6, numpy 2.5.4, joblib 1.6.0.
+No network access, no Docker, and no fastapi / streamlit / mlflow / httpx were available, and they could not be installed.
+
+EXECUTED in this review (real results)
+  python verify_saved_model.py          -> ALL CHECKS PASSED (11 PASS; test accuracy 0.8333, Macro-F1 0.8305, top-3 0.9667)
+  python test_input_checks.py           -> 5/5 PASS
+  python test_model.py                  -> teff 56.33%, wheat 16.67%, haricot_bean 8.33%
+  python monitor_model.py <both logs>   -> reproduces outputs/monitoring_report.md (only a tie-order difference in the crop-mix line)
+  python -m py_compile (all .py)        -> OK
+  python check_docker_context.py        -> STATIC CHECK PASSED (see docker_context_static_check.txt)
+  YAML/TOML syntax of .github/*, .streamlit/config.toml -> valid
+
+NOT EXECUTED in this review (no capability available here)
+  docker build / docker run             -> the image has NOT been built
+  python test_api.py (13 tests)         -> needs fastapi + httpx; last recorded pass: evidence/module6_verification_log.txt (2026-11-02)
+  python test_app_validation.py (5)     -> needs streamlit; last recorded pass: evidence/module6_verification_log.txt (2026-11-02)
+  python track_experiments.py (MLflow)  -> needs mlflow; last results: outputs/mlflow_runs.csv
+  .github/workflows/ci.yml              -> written and syntax-checked only; it has not run on GitHub
+
+TO PRODUCE THE MISSING EVIDENCE (on a machine with network access and Docker)
+  pip install -r requirements.txt
+  python test_api.py && python test_app_validation.py && python track_experiments.py
+  docker build -t crop-api:1.0 . && docker run --rm -p 8000:8000 crop-api:1.0
+  curl http://localhost:8000/health
+  Save the terminal output in evidence/ (or push to GitHub and keep the first successful Actions run).

@@ -1,0 +1,2 @@
+selected_model,test_rows,accuracy,macro_precision,macro_recall,macro_f1,weighted_f1,top3_accuracy
+Random Forest,90,0.8333333333333334,0.8363023088023087,0.8333333333333333,0.8305400756793946,0.8305400756793945,0.9666666666666667

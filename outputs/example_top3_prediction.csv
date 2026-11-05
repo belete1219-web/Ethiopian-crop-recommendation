@@ -1,0 +1,4 @@
+rank,recommended_crop,model_score
+1,teff,0.5633333333333334
+2,wheat,0.16666666666666666
+3,haricot_bean,0.08333333333333333

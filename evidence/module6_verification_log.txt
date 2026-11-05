@@ -1,0 +1,52 @@
+MODULE 6 VERIFICATION LOG - 2026-11-02 13:38 UTC
+Python 3.12.3
+scikit-learn 1.9.1 | pandas 3.0.6 | numpy 2.5.3 | fastapi 0.162.0 | mlflow 3.17.2 | streamlit 1.66.1
+
+== python verify_saved_model.py
+Rows: train=420 validation=90 test=90 | model: RandomForestClassifier, 300 trees | metadata says: Random Forest
+[PASS] model features match metadata
+[PASS] model classes match metadata  (10 classes)
+[PASS] test accuracy reproduces saved value  (0.8333 vs 0.8333)
+[PASS] test Macro-F1 reproduces saved value  (0.8305 vs 0.8305)
+[PASS] test top-3 accuracy reproduces saved value  (0.9667 vs 0.9667)
+[PASS] metadata test metrics agree
+[PASS] model is not fitted on test rows (held-out accuracy well below fitted-rows accuracy)  (fitted rows 1.000 vs test 0.833)
+[PASS] metadata feature ranges equal the train+validation rows
+[PASS] test rows and fitted rows do not overlap
+Example top-3: [('teff', 0.563), ('wheat', 0.167), ('haricot_bean', 0.083)]
+[PASS] example prediction matches outputs/example_top3_prediction.csv
+ALL CHECKS PASSED
+exit code: 0
+
+== python test_input_checks.py
+PASS test_typical_values_are_familiar
+PASS test_every_feature_is_range_checked
+PASS test_edge_of_range_is_caution_only
+PASS test_unusual_combination_of_ordinary_values
+PASS test_real_rows_are_rarely_flagged
+exit code: 0
+
+== python test_app_validation.py
+PASS test_typical_values_have_no_warning
+PASS test_out_of_range_values_are_flagged
+PASS test_each_value_ordinary_but_combination_unusual_is_flagged
+PASS test_edge_of_range_value_gets_caution_not_error
+PASS test_physical_limits_still_enforced_by_widgets
+exit code: 0
+
+== python test_api.py
+PASS test_edge_of_range_is_caution
+PASS test_health_and_model_info
+PASS test_health_reports_503_when_model_missing
+PASS test_logging_failure_does_not_break_prediction
+PASS test_missing_field_rejected
+PASS test_non_finite_rejected
+PASS test_out_of_range_value_is_answered_but_flagged_unreliable
+PASS test_physically_impossible_values_rejected
+PASS test_prediction_is_logged_without_personal_fields
+PASS test_unexpected_error_hides_details_and_gives_error_id
+PASS test_unknown_field_rejected
+PASS test_valid_request_returns_top3_sorted_and_familiar
+PASS test_wrong_type_rejected
+13/13 tests passed
+exit code: 0

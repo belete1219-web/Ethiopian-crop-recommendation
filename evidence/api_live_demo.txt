@@ -1,0 +1,93 @@
+LIVE API DEMO  2026-11-02 13:38 UTC  (uvicorn api:app --port 8000, run locally in the build environment)
+
+### GET /health
+HTTP 200
+{
+  "status": "ok",
+  "api_version": "1.0.0"
+}
+
+### POST /predict - typical values
+HTTP 200
+{
+  "top3": [
+    {
+      "rank": 1,
+      "crop": "teff",
+      "score": 0.5633
+    },
+    {
+      "rank": 2,
+      "crop": "wheat",
+      "score": 0.1667
+    },
+    {
+      "rank": 3,
+      "crop": "haricot_bean",
+      "score": 0.0833
+    }
+  ],
+  "reliability": "familiar",
+  "warnings": [],
+  "model": "Random Forest",
+  "api_version": "1.0.0",
+  "disclaimer": "Prototype trained on a 600-row file of undocumented origin that appears to be synthetic. Scores are model outputs, not calibrated probabilities, yields or fertilizer advice. Not validated on Ethiopian field data."
+}
+
+### POST /predict - temperature -5, rainfall 20 (valid numbers the model never saw)
+HTTP 200
+{
+  "top3": [
+    {
+      "rank": 1,
+      "crop": "barley",
+      "score": 0.55
+    },
+    {
+      "rank": 2,
+      "crop": "teff",
+      "score": 0.18
+    },
+    {
+      "rank": 3,
+      "crop": "wheat",
+      "score": 0.1333
+    }
+  ],
+  "reliability": "unreliable",
+  "warnings": [
+    "temperature = -5 is outside the range the model was fitted on (10.31 to 33.11). The model has never seen a value like this, so its ranking is an extrapolation.",
+    "rainfall = 20 is outside the range the model was fitted on (198.2 to 1742). The model has never seen a value like this, so its ranking is an extrapolation."
+  ],
+  "model": "Random Forest",
+  "api_version": "1.0.0",
+  "disclaimer": "Prototype trained on a 600-row file of undocumented origin that appears to be synthetic. Scores are model outputs, not calibrated probabilities, yields or fertilizer advice. Not validated on Ethiopian field data."
+}
+
+### POST /predict - pH 15 (physically impossible)
+HTTP 422
+{
+  "detail": "Invalid input.",
+  "errors": [
+    {
+      "field": "ph",
+      "problem": "Input should be less than or equal to 14"
+    }
+  ]
+}
+
+### POST /predict - text instead of a number, pH missing
+HTTP 422
+{
+  "detail": "Invalid input.",
+  "errors": [
+    {
+      "field": "N",
+      "problem": "Input should be a valid number, unable to parse string as a number"
+    },
+    {
+      "field": "ph",
+      "problem": "Field required"
+    }
+  ]
+}

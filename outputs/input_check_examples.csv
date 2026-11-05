@@ -1,0 +1,4 @@
+input,top_crop,top_score,reliability,warnings
+Typical values,teff,56%,familiar,none
+"Temperature -5, rainfall 20 (outside range)",barley,55%,unreliable,outside_range:temperature; outside_range:rainfall
+"Each value ordinary, combination unusual",enset,45%,unreliable,unfamiliar_combination

@@ -1,0 +1,10 @@
+check,result,how to read it
+Rows per crop (min / max),60 / 60,Exactly balanced
+Class-by-feature distributions consistent with normal (Shapiro p>0.05),100% of 70,Expect ~95% if normal; real field data usually fails some
+Mean |within-crop correlation| between features,0.100,Independent draws give ~0.104
+Mean |correlation| across all rows pooled,0.243,Higher only because crops differ in their means
+Rainfall SD across crops (min / max),131 / 153,Near-constant spread
+Rainfall mean across crops (min / max),441 / 1415,...while the means differ about 3x
+Rainfall coefficient of variation across crops,10% / 31%,Real variability usually scales with the mean
+Rows with humidity at exactly 100 / rainfall at exactly 100,1 / 1,Signature of clipping generated values at a bound
+Share of values with more than 6 decimal places,100%,Instrument readings are rounded

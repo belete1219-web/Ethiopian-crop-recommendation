@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+mlflow.db
+mlruns/
+mlartifacts/
+logs/predictions.jsonl
+.env
+*.key
+secrets.*
+.pytest_cache/
+*.pyc
+.DS_Store

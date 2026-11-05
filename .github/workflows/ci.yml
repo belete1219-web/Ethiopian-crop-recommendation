@@ -1,0 +1,72 @@
+# Continuous integration for the crop recommendation prototype.
+# Runs the same checks the README lists, then builds and smoke-tests the API container.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install pinned dependencies
+        run: pip install -r requirements.txt
+      - name: Saved model reproduces the reported metrics
+        run: python verify_saved_model.py
+      - name: Input-check tests
+        run: python test_input_checks.py
+      - name: API tests
+        run: python test_api.py
+      - name: Streamlit app tests
+        run: python test_app_validation.py
+      - name: MLflow experiment tracking
+        run: python track_experiments.py
+      - name: Monitoring report on the simulated logs
+        run: python monitor_model.py logs/simulated_week1.jsonl logs/simulated_week2.jsonl
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the API image
+        run: docker build -t crop-api:ci .
+      - name: Start the container
+        run: docker run -d --name crop-api -p 8000:8000 crop-api:ci
+      - name: Wait for /health
+        run: |
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8000/health; then echo; exit 0; fi
+            sleep 2
+          done
+          docker logs crop-api
+          exit 1
+      - name: Smoke-test /predict
+        run: |
+          curl -sf -X POST http://localhost:8000/predict \
+            -H "content-type: application/json" \
+            -d '{"N":60,"P":30,"K":35,"temperature":22,"humidity":60,"ph":6.4,"rainfall":700}' \
+            | tee response.json
+          grep -q '"top3"' response.json
+      - name: Invalid input must be rejected with HTTP 422
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:8000/predict \
+            -H "content-type: application/json" \
+            -d '{"N":60,"P":30,"K":35,"temperature":22,"humidity":60,"ph":15,"rainfall":700}')
+          echo "HTTP $code"
+          test "$code" = "422"
+      - name: Container logs on failure
+        if: failure()
+        run: docker logs crop-api

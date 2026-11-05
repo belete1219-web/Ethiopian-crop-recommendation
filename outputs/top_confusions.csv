@@ -1,0 +1,15 @@
+true_crop,predicted_as,count
+sesame,chickpea,2
+barley,haricot_bean,1
+barley,teff,1
+barley,wheat,1
+chickpea,sorghum,1
+coffee,enset,1
+enset,coffee,1
+haricot_bean,sesame,1
+haricot_bean,sorghum,1
+haricot_bean,teff,1
+maize,enset,1
+teff,barley,1
+teff,wheat,1
+wheat,maize,1

@@ -1,0 +1,17 @@
+# Monthly dependency review, as described in docs/Monitoring_Support_Maintenance_Plan.docx.
+# Updates to scikit-learn, numpy or pandas change what the saved model can load: they must pass
+# verify_saved_model.py in CI before merging, and may require retraining.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

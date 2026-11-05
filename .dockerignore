@@ -1,0 +1,14 @@
+.venv
+__pycache__
+mlruns
+mlflow.db
+logs
+evidence
+*.docx
+*.ipynb
+data
+.git
+.env
+.github
+.pytest_cache
+.streamlit

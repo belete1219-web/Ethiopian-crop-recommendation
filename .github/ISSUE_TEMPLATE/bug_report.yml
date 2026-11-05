@@ -1,0 +1,42 @@
+name: Bug or unexpected prediction
+description: Report an error, a wrong warning, or an unexpected recommendation
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include names, phone numbers or farm locations. Only the seven soil and climate numbers are needed.
+  - type: textarea
+    id: entered
+    attributes:
+      label: What was entered
+      description: N, P, K, temperature, humidity, pH, rainfall (and which interface, app or API)
+    validations:
+      required: true
+  - type: textarea
+    id: returned
+    attributes:
+      label: What was returned
+      description: Top-3 crops, scores, reliability level, warnings, or the error message
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: input
+    id: error_id
+    attributes:
+      label: error_id (if the API returned one)
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - "S1: service down, or wrong output presented as reliable"
+        - "S2: wrong or confusing warnings"
+        - "S3: cosmetic or documentation"
+    validations:
+      required: true

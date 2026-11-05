@@ -1,0 +1,17 @@
+[PASS] COPY requirements-deploy.txt: exists=True, excluded_by_dockerignore=False
+[PASS] COPY api.py: exists=True, excluded_by_dockerignore=False
+[PASS] COPY input_checks.py: exists=True, excluded_by_dockerignore=False
+[PASS] COPY model_metadata.json: exists=True, excluded_by_dockerignore=False
+[PASS] COPY crop_recommendation_model.joblib: exists=True, excluded_by_dockerignore=False
+[PASS] COPY outputs/model_training_features.csv: exists=True, excluded_by_dockerignore=False
+[PASS] numpy==2.5.3 matches requirements.txt (2.5.3)
+[PASS] pandas==3.0.6 matches requirements.txt (3.0.6)
+[PASS] scikit-learn==1.9.1 matches requirements.txt (1.9.1)
+[PASS] runtime package for import 'fastapi' listed in requirements-deploy.txt
+[PASS] runtime package for import 'uvicorn' listed in requirements-deploy.txt
+[PASS] runtime package for import 'joblib' listed in requirements-deploy.txt
+[PASS] runtime package for import 'numpy' listed in requirements-deploy.txt
+[PASS] runtime package for import 'pandas' listed in requirements-deploy.txt
+[PASS] runtime package for import 'sklearn' listed in requirements-deploy.txt
+
+STATIC CHECK PASSED (image NOT built)

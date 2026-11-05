@@ -1,0 +1,36 @@
+HISTORICAL RECORD (Module 5, superseded). This run used scikit-learn 1.8.0 and an earlier fitted model (test accuracy 0.8222).
+The shipped model gives 0.8333 / Macro-F1 0.8305; see evidence/module6_verification_log.txt for the current verification.
+
+VERIFICATION LOG - 2026-10-14 18:46 UTC
+Python 3.12.3 | scikit-learn 1.8.0 | pandas 3.0.2 | streamlit 1.65.0
+
+== 1. verify_saved_model.py
+Rows: train=420 validation=90 test=90 | model: RandomForestClassifier, 300 trees | metadata says: Random Forest
+[PASS] model features match metadata
+[PASS] model classes match metadata  (10 classes)
+[PASS] test accuracy reproduces saved value  (0.8222 vs 0.8222)
+[PASS] test Macro-F1 reproduces saved value  (0.8213 vs 0.8213)
+[PASS] test top-3 accuracy reproduces saved value  (0.9667 vs 0.9667)
+[PASS] metadata test metrics agree
+[PASS] model is not fitted on test rows (held-out accuracy well below fitted-rows accuracy)  (fitted rows 1.000 vs test 0.822)
+[PASS] metadata feature ranges equal the train+validation rows
+[PASS] test rows and fitted rows do not overlap
+Example top-3: [('teff', 0.59), ('wheat', 0.15), ('haricot_bean', 0.083)]
+[PASS] example prediction matches outputs/example_top3_prediction.csv
+
+ALL CHECKS PASSED
+
+== 2. test_app_validation.py (Streamlit AppTest)
+PASS test_typical_values_have_no_warning
+PASS test_out_of_range_values_are_flagged
+PASS test_each_value_ordinary_but_combination_unusual_is_flagged
+PASS test_edge_of_range_value_gets_caution_not_error
+PASS test_physical_limits_still_enforced_by_widgets
+
+== 3. test_model.py (README inference example)
+1. teff — model score: 59.00%
+2. wheat — model score: 15.00%
+3. haricot_bean — model score: 8.33%
+
+== 4. Live server: streamlit run app.py
+See evidence/health_check.txt (HTTP 200 from /_stcore/health and from the app's root page) and evidence/app_*.png (browser screenshots of three scenarios).
