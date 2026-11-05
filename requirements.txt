@@ -4,7 +4,7 @@ numpy==2.5.3          # (pinned)
 pandas==3.0.6         # (pinned)
 scikit-learn==1.9.1   # (pinned)
 scipy>=1.10
-matplotlib>=3.7
+matplotlib>=3.11.2
 seaborn>=0.12
 joblib>=1.3
 streamlit>=1.30
