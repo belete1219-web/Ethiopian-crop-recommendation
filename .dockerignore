@@ -13,3 +13,4 @@ data
 .pytest_cache
 .streamlit
 .ipynb_checkpoints/
+*.zip

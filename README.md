@@ -197,7 +197,7 @@ python monitor_model.py logs/simulated_week1.jsonl logs/simulated_week2.jsonl   
 - **MLflow prints "Failed to import Git" warnings (for example on Windows without Git):** harmless. `track_experiments.py` now silences them by setting `GIT_PYTHON_REFRESH=quiet`; installing Git (https://git-scm.com) also removes them. The run still logs normally.
 
 ## GitHub configuration
-Nothing here is published yet; these steps create the repository the maintenance plan refers to.
+The repository is published at https://github.com/belete1219-web/Ethiopian-crop-recommendation. These are the steps that created it, kept for anyone who wants to repeat them.
 ```bash
 git init -b main
 git add .
