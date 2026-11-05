@@ -1,7 +1,7 @@
 # Versions marked (pinned) match the environment that produced the saved model (see model_metadata.json) and the
 # one used to verify it. scikit-learn models are NOT guaranteed to load across versions, so keep these pinned.
 numpy==2.5.3          # (pinned)
-pandas==3.0.6         # (pinned)
+pandas==3.1.0         # (pinned)
 scikit-learn==1.9.1   # (pinned)
 scipy>=1.10
 matplotlib>=3.7
