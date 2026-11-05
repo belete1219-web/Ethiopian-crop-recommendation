@@ -20,16 +20,16 @@ The assignment requires every group member to contribute meaningfully and speak 
 
 | No. | Member | Proposed Module 6 presentation area | Proposed video segment | Confirmation |
 |---:|---|---|---|---|
-| 1 | Nigussie Tebeje | Problem and solution introduction | 0:00–0:1:00 | Pending |
+| 1 | Nigussie Tebeje | Problem and solution introduction | 0:00–1:00 | Pending |
 | 2 | Bewketu Dessie | Dataset and simulated-data statement | 1:00–1:50 | Pending |
 | 3 | Tigst Amare | Streamlit prototype demonstration | 1:50–2:40 | Pending |
 | 4 | Aysheshim Abrham | Candidate models and MLflow experiment tracking | 2:40–3:30 | Pending |
-| 5 | Dana Ayele | Evaluation results and  | 3:30–4:20 | Pending |
+| 5 | Dana Ayele | Evaluation results | 3:30–4:20 | Pending |
 | 6 | Belete Shawel | Model artifacts and deployment approach | 4:20–5:10 | Pending |
 | 7 | Mussie Hailemarkos | FastAPI, input validation, API tests and simulated monitoring demo | 5:10–6:25 | Pending |
-| 8 | Adem Hussien |Monitoring, support and maintenance plan, Portfolio documentation and written retrospective| 6:25–7:20 | Pending |
-| 9 | Fentaye Abrham | Limitations , responsible use, Future work and closing summary (proposed; replace if actual contribution differs) | 7:20–9:10 | Pending |
- 
-The segments total 9 minutes 10 seconds, leaving 40 seconds of margin under the 10-minute limit. Wording for each segment is in `docs/Capstone_Video_Script.docx`.
+| 8 | Adem Hussien | Monitoring, support and maintenance plan; portfolio documentation and written retrospective | 6:25–7:45 | Pending |
+| 9 | Fentaye Abrham | Limitations, responsible use, future work and closing summary (proposed; replace if actual contribution differs) | 7:45–9:10 | Pending |
+
+The segments total 9 minutes 10 seconds, leaving 50 seconds of margin under the 10-minute limit. Wording for each segment is in `docs/Capstone_Video_Script.docx`.
 
 **Before recording:** Replace every "Pending" entry with a confirmation, correct the proposed roles to match actual work, and ensure each member can explain their contribution and demonstrate understanding of the overall project.

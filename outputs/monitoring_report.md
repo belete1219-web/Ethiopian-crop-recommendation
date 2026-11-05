@@ -18,7 +18,7 @@ Compared with the 510 rows the model was fitted on. PSI thresholds: watch >= 0.1
 | PSI: ph | 0.039 | ok |
 | PSI: rainfall | 0.072 | ok |
 
-Top-1 crop mix (top 5): wheat 12%, sesame 12%, haricot_bean 12%, chickpea 12%, enset 10%
+Top-1 crop mix (top 5): wheat 12%, sesame 12%, chickpea 12%, haricot_bean 12%, enset 10%
 
 ## simulated_week2.jsonl  (source tag: SIMULATED; 200 requests)
 
