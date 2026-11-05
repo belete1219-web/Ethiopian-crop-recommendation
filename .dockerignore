@@ -12,3 +12,4 @@ data
 .github
 .pytest_cache
 .streamlit
+.ipynb_checkpoints/

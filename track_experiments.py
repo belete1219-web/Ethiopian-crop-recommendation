@@ -10,6 +10,12 @@ import warnings
 from pathlib import Path
 
 import joblib
+import os
+
+# MLflow tries to record the Git branch and URL with each run. If Git is not installed (common on Windows)
+# it prints long warnings; they are harmless, so silence them. Must be set before importing mlflow.
+os.environ.setdefault("GIT_PYTHON_REFRESH", "quiet")
+
 import mlflow
 import pandas as pd
 from sklearn.dummy import DummyClassifier

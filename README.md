@@ -1,5 +1,7 @@
 # Crop Recommendation Based on Soil and Climate Conditions
 
+[![CI](https://github.com/belete1219-web/Ethiopian-crop-recommendation/actions/workflows/ci.yml/badge.svg)](https://github.com/belete1219-web/Ethiopian-crop-recommendation/actions/workflows/ci.yml)
+
 ## Project overview
 A multiclass machine-learning prototype that ranks three crop labels from seven input features:
 `N`, `P`, `K`, `temperature`, `humidity`, `ph`, and `rainfall`.
@@ -149,7 +151,7 @@ for rank, i in enumerate(order, start=1):
 **Group members and responsibilities:** see `Group_Contributions.md` (Module 5 and Module 6 tables).
 **Data statement:** the training data are treated as synthetic and of undocumented origin; see `docs/Simulated_Data_Statement.docx`. The
 monitoring demonstration additionally uses **simulated API traffic** (`simulate_requests.py`), tagged `SIMULATED` in every log line.
-**External links:** Not publicly deployed. No GitHub repository or hosted Streamlit URL exists for this submission; reviewers should use the local run instructions in this README and the screenshots and logs in `evidence/`.
+**External links:** Source code (public): https://github.com/belete1219-web/Ethiopian-crop-recommendation. The Streamlit app is **not publicly deployed**; run it locally with the instructions in this README, or see the screenshots and logs in `evidence/`.
 
 | File | Purpose |
 |---|---|
@@ -158,7 +160,7 @@ monitoring demonstration additionally uses **simulated API traffic** (`simulate_
 | `track_experiments.py` | MLflow tracking: logs the four candidate models (parameters, validation metrics) and a final run for the saved model on the held-out test rows. Results also exported to `outputs/mlflow_runs.csv`. |
 | `monitor_model.py` | Monitoring report from the prediction log: unreliable-input share, low-confidence share, PSI drift per feature, crop mix, with WATCH/ALERT flags. |
 | `simulate_requests.py` | Generates simulated traffic (a baseline week and a drifted week) to demonstrate the monitor. |
-| `Dockerfile`, `requirements-deploy.txt`, `.dockerignore` | Container recipe for the API (written but **not built or run** by the authors of this package; see limitations). |
+| `Dockerfile`, `requirements-deploy.txt`, `.dockerignore` | Container recipe for the API (built and smoke-tested by the GitHub Actions `docker` job on every push; not built locally by the authors, not vulnerability-scanned, not deployed). |
 | `check_docker_context.py` | Static check of the Docker build context that works without Docker: COPY sources exist and are not excluded, pins match `requirements.txt`, runtime packages are listed. It does **not** build the image. |
 | `.github/` | `workflows/ci.yml` (tests, then Docker build and API smoke test), `dependabot.yml`, issue form with S1 to S3 severity, pull-request release checklist. Written for this repository; see "GitHub configuration" below. |
 | `.streamlit/config.toml`, `.env.example` | Headless Streamlit settings with usage statistics off; documented environment variable (`PREDICTION_LOG`). |
@@ -181,15 +183,18 @@ python monitor_model.py logs/simulated_week1.jsonl logs/simulated_week2.jsonl   
 ```
 ### Deploy
 - **Streamlit Community Cloud:** push this folder to GitHub, create an app pointing at `app.py`. `requirements.txt` pins the scikit-learn/pandas/numpy versions the saved model needs.
-- **Docker (API):** `docker build -t crop-api:1.0 .` then `docker run --rm -p 8000:8000 crop-api:1.0`. The authors have not built this image; `python check_docker_context.py` checks the context statically, and the `docker` job in `.github/workflows/ci.yml` builds it and smoke-tests `/health`, `/predict` and an invalid request (HTTP 422) on every push.
+- **Docker (API):** `docker build -t crop-api:1.0 .` then `docker run --rm -p 8000:8000 crop-api:1.0`. The `docker` job in `.github/workflows/ci.yml` builds this image and smoke-tests `/health`, `/predict` and an invalid request (HTTP 422) on every push; the first run passed (see CI evidence below). `python check_docker_context.py` checks the build context statically without Docker.
 
 ### What is implemented, simulated, and future work
 - **Implemented and tested:** model, Streamlit app with input-familiarity warnings, FastAPI service, MLflow logging, monitoring script, automated tests.
 - **Simulated:** the training data (inferred) and the monitoring traffic (explicitly generated).
-- **Written but not yet run:** the GitHub Actions workflow (`.github/workflows/ci.yml`) and the Docker image. Neither has been executed by the authors of this package; the first push to GitHub will run them.
+- **CI evidence:** the GitHub Actions workflow ran on the first push (commit `e0dc692`, run #1, 2 min 52 s) and shows a green tick, so both the `tests` job (model verification, input checks, API tests, Streamlit tests, MLflow tracking, monitoring report) and the `docker` job (image build, `/health`, `/predict`, HTTP 422 check) succeeded. Screenshots: `evidence/github_actions_ci_runs.png` and `evidence/github_repository_main.png`. Seven Dependabot pull requests also ran the same CI and passed. Not done: building the image on the authors' own machines, a vulnerability scan, and hosted deployment.
 - **Future:** real documented Ethiopian data (EthioSIS, NASA POWER), outcome feedback for accuracy monitoring, calibration, vulnerability-scanned Docker image, authentication and rate limiting for a public API.
 - **Known issue found while preparing Module 6:** the Module 5 README quoted test accuracy 0.822 / Macro-F1 0.821, but the shipped model and `outputs/test_metrics.csv` give 0.833 / 0.831 (verified by `verify_saved_model.py`). The README and report now state 0.833 / 0.831. A second stale figure (barley at 63% for the impossible input temperature -5, rainfall 20) was corrected to 55%, the value the shipped model returns (see `evidence/app_2_out_of_range.png` and `outputs/input_check_examples.csv`). `evidence/verification_log.txt` is the earlier Module 5 run and is kept only as a historical record.
 
+
+## Troubleshooting
+- **MLflow prints "Failed to import Git" warnings (for example on Windows without Git):** harmless. `track_experiments.py` now silences them by setting `GIT_PYTHON_REFRESH=quiet`; installing Git (https://git-scm.com) also removes them. The run still logs normally.
 
 ## GitHub configuration
 Nothing here is published yet; these steps create the repository the maintenance plan refers to.
@@ -200,16 +205,13 @@ git commit -m "Crop recommendation prototype: Module 6 submission"
 # create an empty repository on github.com (no README or licence), then:
 git remote add origin https://github.com/<owner>/<repository>.git
 git push -u origin main
-#cd C:\Users\belet\desktop\edit\ECRBSCConditionsproject
- #  git config --global user.name "Your Name"
-   #git config --global user.email "your-github-email@example.com"
-``
+```
 On GitHub:
-1. **Actions:** the `CI` workflow runs on every push and pull request to `main`. It installs the pinned `requirements.txt`, runs `verify_saved_model.py`, `test_input_checks.py`, `test_api.py`, `test_app_validation.py`, `track_experiments.py` and `monitor_model.py`, then builds the Docker image, starts it and checks `/health`, `/predict` and an invalid request. Add the repository's CI badge to this README only after the first run succeeds.
+1. **Actions:** the `CI` workflow runs on every push and pull request to `main`. It installs the pinned `requirements.txt`, runs `verify_saved_model.py`, `test_input_checks.py`, `test_api.py`, `test_app_validation.py`, `track_experiments.py` and `monitor_model.py`, then builds the Docker image, starts it and checks `/health`, `/predict` and an invalid request. The badge at the top of this README shows the latest result.
 2. **Labels:** create `bug`, plus severity labels S1, S2, S3 to match the issue form (S1 service down or wrong output shown as reliable; S2 wrong or confusing warnings; S3 cosmetic or documentation).
 3. **Branch protection (Settings, Branches):** require the `tests` and `docker` checks and one review before merging into `main`.
 4. **Releases:** tag each release (for example `v1.0.0`) after the pull-request checklist is complete; keep the previous model file so a release can be rolled back.
-5. **Dependabot:** `.github/dependabot.yml` opens monthly update pull requests. Treat any change to scikit-learn, numpy or pandas as a model-compatibility change: it must pass `verify_saved_model.py` and may require retraining.
+5. **Dependabot:** `.github/dependabot.yml` opens monthly update pull requests. It also opens pull requests right after the first push (seven appeared, and CI passed on all of them). Leave them unmerged before submitting so the repository matches the pinned versions in the report; merge or close them afterwards. Treat any change to scikit-learn, numpy or pandas as a model-compatibility change: it must pass `verify_saved_model.py` and may require retraining.
 6. **Hosted app (optional):** on Streamlit Community Cloud choose the repository, branch `main`, main file `app.py`, Python 3.12. It installs `requirements.txt`, which includes MLflow and FastAPI, so the first build is slow but works. Only after the app is live, replace "Not publicly deployed" above with its URL.
 7. **Secrets:** none are needed. Do not commit `.env`, keys or real prediction logs (`.gitignore` excludes them).
 

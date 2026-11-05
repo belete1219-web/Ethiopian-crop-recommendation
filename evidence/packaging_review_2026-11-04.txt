@@ -24,3 +24,26 @@ TO PRODUCE THE MISSING EVIDENCE (on a machine with network access and Docker)
   docker build -t crop-api:1.0 . && docker run --rm -p 8000:8000 crop-api:1.0
   curl http://localhost:8000/health
   Save the terminal output in evidence/ (or push to GitHub and keep the first successful Actions run).
+
+ADDENDUM 2026-11-05 - MLflow run executed by the group (Windows, PowerShell, project folder ECRBSCConditionsproject)
+  python track_experiments.py -> completed. MLflow created its SQLite database and the experiment 'crop-recommendation-module6',
+  logged 4 candidate runs and 1 final run on the held-out test rows. Screenshots: mlflow_run_terminal_1_start.png and
+  mlflow_run_terminal_2_results.png. Results printed:
+     Majority baseline  val accuracy 0.1000, val Macro-F1 0.0182
+     Decision Tree      val accuracy 0.6111, val Macro-F1 0.6063
+     Random Forest      val accuracy 0.7444, val Macro-F1 0.7470
+     Gradient Boosting  val accuracy 0.6778, val Macro-F1 0.6992
+     Final saved Random Forest on test: accuracy 0.8333, Macro-F1 0.8305, top-3 0.9667
+  These match outputs/mlflow_runs.csv and the report. The long "Failed to import Git" messages came from Git not being on PATH;
+  they are harmless and track_experiments.py now silences them (GIT_PYTHON_REFRESH=quiet).
+  Still not executed: docker build, python test_api.py, python test_app_validation.py, and the GitHub Actions workflow.
+
+ADDENDUM 2026-11-05 (2) - GitHub Actions evidence (supersedes the "not executed" items above for docker, API tests and Streamlit tests)
+  Repository: https://github.com/belete1219-web/Ethiopian-crop-recommendation (public). Screenshots: github_actions_ci_runs.png, github_repository_main.png.
+  CI run #1 (commit e0dc692, pushed by belete1219-web, branch main, 2 min 52 s) finished with a green tick. GitHub shows a green tick only when every job
+  succeeded, so both jobs passed: 'tests' (verify_saved_model.py, test_input_checks.py, test_api.py, test_app_validation.py, track_experiments.py,
+  monitor_model.py) and 'docker' (image build, container start, /health, /predict, HTTP 422 on pH 15).
+  Seven Dependabot pull requests (#1 to #7: actions/checkout, actions/setup-python, scipy, mlflow, pandas 3.0.6 to 3.1.0, matplotlib, fastapi) also ran CI and passed.
+  They are left unmerged so the repository matches the pinned versions used in the report.
+  Limit of this evidence: the screenshot shows the run list, not the per-job logs. Open run #1 and screenshot the 'tests' and 'docker' jobs if a per-job view is wanted.
+  Still not done: building the image on a local machine, a vulnerability scan, hosted deployment.
